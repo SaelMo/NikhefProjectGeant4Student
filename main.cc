@@ -3,6 +3,7 @@
 #include "G4ios.hh"
 #include "G4RunManagerFactory.hh"
 #include "QGSP_BERT.hh"
+#include "G4OpticalPhysics.hh"
 #include "G4UImanager.hh"
 
 #include "ActionInit.hh"
@@ -11,30 +12,28 @@
 using namespace docker_g4;
 
 int main(){
+  int numberPrimaries = 3;
 
-  // run manager
   auto runManager = G4RunManagerFactory::CreateRunManager();
+  G4cout << "Start Geant4 simulation" << G4endl;
 
-  G4cout << "Hello from the Geant4 world!" << G4endl;
-
-  // physics list
   runManager->SetUserInitialization(new QGSP_BERT());
+  
+  // Add optical physics
+  G4VModularPhysicsList* physicsList = new QGSP_BERT();
+  physicsList->RegisterPhysics(new G4OpticalPhysics());
+  runManager->SetUserInitialization(physicsList);
 
-  // detector construction
   runManager->SetUserInitialization(new DetConstruction());
-
-  // action initialization w/ primary gen action & stepping action
   runManager->SetUserInitialization(new ActionInit());
+  G4UImanager* UI = G4UImanager::GetUIpointer();
+  UI->ApplyCommand("/run/verbose 0");
+  UI->ApplyCommand("/event/verbose 0");
+  UI->ApplyCommand("/tracking/verbose 0");
 
-  // initialize G4 kernel
   runManager->Initialize();
+  runManager->BeamOn(numberPrimaries);
 
-  // run a couple of particles
-  int numberOfEvent = 3;
-  runManager->BeamOn(numberOfEvent);
-
-  // job termination
   delete runManager;
-
-  return 0;
+  G4cout << "End Geant4 simulation" << G4endl;
 }

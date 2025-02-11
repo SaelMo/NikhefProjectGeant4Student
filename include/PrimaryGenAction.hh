@@ -1,6 +1,7 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
 #include "G4ios.hh"
+#include "G4GeneralParticleSource.hh"
 
 namespace docker_g4
 {
@@ -11,7 +12,7 @@ public:
   void GeneratePrimaries(G4Event* anEvent) override;
 
 private:
-  G4ParticleGun* fParticleGun;
+  G4GeneralParticleSource* fParticleGun;
 };
   
-} // namespace docker_g4
+}
