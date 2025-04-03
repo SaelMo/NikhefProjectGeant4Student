@@ -5,7 +5,7 @@
 #include "G4VProcess.hh"
 #include "G4SystemOfUnits.hh"
 
-namespace docker_g4 {
+namespace NikhefProject {
 
 void SteppingAction::UserSteppingAction(const G4Step *aStep) {
     static bool headerPrinted = false;

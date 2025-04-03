@@ -8,7 +8,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4OpticalPhysics.hh"
 
-namespace docker_g4 {
+namespace NikhefProject {
 
 G4VPhysicalVolume* DetConstruction::Construct() {
     // Add a background material

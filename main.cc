@@ -1,5 +1,3 @@
-// Entrypoint for docker-g4-app
-
 #include "G4ios.hh"
 #include "G4RunManager.hh"
 #include "QGSP_BERT.hh"
@@ -9,15 +7,17 @@
 #include "ActionInit.hh"
 #include "DetConstruction.hh"
 
-using namespace docker_g4;
+using namespace NikhefProject;
 
 int main(){
   int numberPrimaries = 100;
+
   auto runManager = new G4RunManager();
   G4cout << "Start Geant4 simulation" << G4endl;
 
   runManager->SetUserInitialization(new QGSP_BERT());
   
+  // Add optical physics
   G4VModularPhysicsList* physicsList = new QGSP_BERT();
   physicsList->RegisterPhysics(new G4OpticalPhysics());
   runManager->SetUserInitialization(physicsList);

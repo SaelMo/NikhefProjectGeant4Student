@@ -3,7 +3,7 @@
 #include "G4ios.hh"
 #include "G4GeneralParticleSource.hh"
 
-namespace docker_g4
+namespace NikhefProject
 {
 
 class PrimaryGenAction : public G4VUserPrimaryGeneratorAction {

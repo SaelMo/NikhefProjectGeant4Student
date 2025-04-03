@@ -1,6 +1,6 @@
 #include "G4UserSteppingAction.hh"
 
-namespace docker_g4 {
+namespace NikhefProject {
 
 class SteppingAction : public G4UserSteppingAction {
 public:

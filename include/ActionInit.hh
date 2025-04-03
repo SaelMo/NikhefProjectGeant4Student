@@ -2,7 +2,7 @@
 
 #include "G4VUserActionInitialization.hh"
 
-namespace docker_g4 {
+namespace NikhefProject {
 
 class ActionInit : public G4VUserActionInitialization {
 public:

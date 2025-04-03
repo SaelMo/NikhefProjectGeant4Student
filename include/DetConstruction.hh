@@ -1,6 +1,6 @@
 #include "G4VUserDetectorConstruction.hh"
 
-namespace docker_g4 {
+namespace NikhefProject {
 
 class DetConstruction : public G4VUserDetectorConstruction {
 public:

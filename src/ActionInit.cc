@@ -2,7 +2,7 @@
 #include "PrimaryGenAction.hh"
 #include "SteppingAction.hh"
 
-namespace docker_g4 {
+namespace NikhefProject {
 void ActionInit::Build() const {
   SetUserAction(new PrimaryGenAction());
   SetUserAction(new SteppingAction());

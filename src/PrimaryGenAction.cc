@@ -4,7 +4,7 @@
 #include "G4GeneralParticleSource.hh"
 #include "Randomize.hh" // Include for random number generation
 
-namespace docker_g4 {
+namespace NikhefProject {
 
 PrimaryGenAction::PrimaryGenAction(){
   G4double particleEnergy = 2000 * keV;
