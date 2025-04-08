@@ -1,5 +1,3 @@
-﻿﻿# Geant4
-
 Geant4 is a toolkit for developing particle detector simulations. Before starting the exercise, make sure you have cloned this repository and set your own branch so you can save your work and have it reviewed. Include a PDF of your answers. Pushing doesn’t need to be done only once — it’s good practice to commit your progress whenever you verify that a step is working, and to leave a comment describing what you did. This becomes especially important as your code grows in size and you start working with other people.
 
 ## Exercise 0: Hello World, I Found the Libraries!
