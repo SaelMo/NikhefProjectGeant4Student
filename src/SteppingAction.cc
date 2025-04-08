@@ -1,18 +1,25 @@
 #include "SteppingAction.hh"
 #include "G4Step.hh"
 #include "G4ios.hh"
-#include "G4ParticleDefinition.hh"
 #include "G4VProcess.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4LogicalVolume.hh"
+#include "G4TouchableHistory.hh"
+#include "DetConstruction.hh"
 
 namespace NikhefProject {
 
-void SteppingAction::UserSteppingAction(const G4Step *aStep) {
-    static bool headerPrinted = false;
+G4double SteppingAction::totalEnergyInNaI = 0.0;
 
-    // Print header only once
+SteppingAction::SteppingAction() {}
+SteppingAction::~SteppingAction() {
+    G4cout << "Total energy deposited in NaI: " << totalEnergyInNaI / keV << " keV" << G4endl;
+}
+
+void SteppingAction::UserSteppingAction(const G4Step* aStep) {
+    static bool headerPrinted = false;
     if (!headerPrinted) {
-        G4cout << "KineticEnergy(keV), Position(mm), Time(ns), Particle, Process, TrackID, ParentID, EnergyDeposit(keV)" << G4endl;
+        G4cout << "KineticEnergy(keV), Position(mm), Time(ns), Particle, Process, TrackID, ParentID, EnergyDeposit(keV), Material" << G4endl;
         headerPrinted = true;
     }
 
@@ -25,13 +32,22 @@ void SteppingAction::UserSteppingAction(const G4Step *aStep) {
     G4int trackID = aStep->GetTrack()->GetTrackID();
     G4int parentID = aStep->GetTrack()->GetParentID();
     G4double energyDeposit = aStep->GetTotalEnergyDeposit();
+    
+    auto* touchable = (G4TouchableHistory*) aStep->GetPostStepPoint()->GetTouchable();
+    G4LogicalVolume* currentVolume = touchable->GetVolume()->GetLogicalVolume();
+    G4LogicalVolume* NaI_logic = DetConstruction::GetNaILogicalVolume();
 
-    // Skip steps with no defined process or energy deposit less than or equal to 1 keV
-    if (processName == "NoProcess" || energyDeposit <= 2 * eV) {
-        return;
+    if (currentVolume == NaI_logic) {
+        totalEnergyInNaI += energyDeposit;
     }
 
-    G4cout << kineticEnergy / keV << ", " << position << ", " << time / ns << ", " << particleName << ", " << processName << ", " << trackID << ", " << parentID << ", " << energyDeposit / keV << G4endl;
+    // Get the material the particle is interacting with
+    G4Material* material = currentVolume->GetMaterial();
+    G4String materialName = material ? material->GetName() : "Unknown";
+
+    G4cout << kineticEnergy / keV << ", " << position << ", " << time / ns << ", " << particleName << ", "
+           << processName << ", " << trackID << ", " << parentID << ", " << energyDeposit / keV << ", " 
+           << materialName << G4endl;
 }
 
 }
